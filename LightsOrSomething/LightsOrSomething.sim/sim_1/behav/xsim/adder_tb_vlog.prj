@@ -1,0 +1,28 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  \
+"../../../../LightsOrSomething.srcs/sources_1/new/ALU.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/adder.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/shifter.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/top.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/MemoryArray.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/registerFile.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/reg32b.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/3to8Decoder.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/FourToSixteenDecoder.sv" \
+
+verilog xil_defaultlib  \
+"../../../../LightsOrSomething.srcs/sources_1/new/EightToOneMux.v" \
+"../../../../LightsOrSomething.srcs/sources_1/new/FourToOneMux.v" \
+
+sv xil_defaultlib  \
+"../../../../LightsOrSomething.srcs/sources_1/new/TwoToOneMux.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/ThirtyTwoToOneMux.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/SixteenToOneMux.sv" \
+"../../../../LightsOrSomething.srcs/sources_1/new/InstructionMemory.sv" \
+"../../../../LightsOrSomething.srcs/sim_1/new/testBench_top.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
