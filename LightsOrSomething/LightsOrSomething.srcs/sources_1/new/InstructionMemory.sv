@@ -8,8 +8,7 @@ module InstructionMemory(
     
     initial
     begin
-        ROM[0] = 32'hffff0000;
-        ROM[1] = 32'h0000ffff;
+        ROM[0] = 32'h7410005;
     end
     
     FourToSixteenDecoder dec(address, decOut);

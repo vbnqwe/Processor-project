@@ -30,10 +30,10 @@ module ALU(
     010 - and
     011 - or
     100 - xor
+    101 - assign
     ADD SHIFTING FOR OPCODES BELOW
-    101 - 
-    110 - 
-    111 - 
+    110 - arithmetic shift left
+    111 - logical shift left
     */
     
     always @ (opCode)
@@ -64,8 +64,8 @@ module ALU(
             end
             2'b101:
             begin
-                input_b = bCompliment;
-                compRes = rOne | input_b;
+                input_b = b;
+                compRes = input_b;
             end
             2'b110: 
             begin

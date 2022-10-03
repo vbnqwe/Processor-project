@@ -8,13 +8,15 @@ module registerFile(
     input [31:0] wd3,
     input we,
     output [31:0] rd1,
-    output [31:0] rd2
+    output [31:0] rd2,
+    output [31:0] r0
     );
     
     wire [15:0] decOut;
     FourToSixteenDecoder dec(a3, decOut);
     wire [15:0] regCLK;
     assign regCLK = decOut & {16{we}};
+    assign r0 = regOutput[0];
     
     wire [15:0] [31:0] regOutput;
     wire [15:0] [31:0] dataInWire;

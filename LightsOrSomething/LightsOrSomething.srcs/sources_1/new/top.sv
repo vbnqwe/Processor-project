@@ -2,17 +2,17 @@
 
 
 module top(
-        input clock
+        input clock,
+        output [31:0] r0
     );
     
     wire CLK;
     assign CLK = clock;
-
     //Various mux decidor things
     wire ldrMem;
     wire wriMem;
     wire branch;
-    wire [2:0] aluCode;
+    wire [2:0] opCode;
     wire rd2ImmMux;
     wire dst;
     wire we;
@@ -27,7 +27,8 @@ module top(
         w3,
         we,
         rd1,
-        rd2
+        rd2,
+        r0
     );
     
     
@@ -63,6 +64,13 @@ module top(
     
     wire [3:0] instAddress;
     wire [31:0] addData;
+    wire [3:0] addedInstAddress;
+    assign addedInstAddress = 1 + instAddress;
+    reg4bit instReg(
+        addedInstAddress,
+        CLK,
+        instAddress
+    );
     InstructionMemory instMem(
         instAddress,
         addData
@@ -71,7 +79,7 @@ module top(
     assign dst = addData[31];
     assign we = addData[30];
     assign rd2ImmMux = addData[29];
-    assign aluCode = addData[28:26];
+    assign opCode = addData[28:26];
     assign wriMem = addData[25];
     assign ldrMem = addData[24];
     assign a1 = addData[23:20];

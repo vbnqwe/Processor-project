@@ -2,14 +2,18 @@
 
 
 module adder_tb;
-    reg [3:0] address;
-    wire [31:0] data;
+    reg clk;
+    wire [31:0] out;
     
-    InstructionMemory dut(address, data);
+    top dut(clk, out);
     
     initial begin
-        address = 0;
+        clk = 0;
         #5;
-        address = 1;
+        clk = 1;
+        #5;
+        clk = 0;
+        #5;
+        clk = 1;
     end
 endmodule
