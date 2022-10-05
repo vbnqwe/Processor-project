@@ -36,43 +36,45 @@ module ALU(
     111 - logical shift left
     */
     
-    always @ (opCode)
+    always @ (opCode, rOne, rTwo)
     begin
         case(opCode)
-            2'b000: 
+            3'b000: 
             begin 
                 input_b = b;
+                compRes = input_b + rOne;
             end
-            2'b001: 
+            3'b001: 
             begin
                 input_b = bCompliment;
+                compRes = input_b + rOne + 1;
             end
-            2'b010: 
+            3'b010: 
             begin
                 input_b = b;
                 compRes = rOne & input_b;
             end
-            2'b011: 
+            3'b011: 
             begin
                 input_b = b;
                 compRes = rOne | input_b;
             end
-            2'b100: 
+            3'b100: 
             begin
                 input_b = b;
                 compRes = rOne ^ input_b;
             end
-            2'b101:
+            3'b101:
             begin
                 input_b = b;
-                compRes = input_b;
+                compRes = b;
             end
-            2'b110: 
+            3'b110: 
             begin
                 input_b = b;
                 compRes = rOne ^ input_b;
             end
-            2'b111: 
+            3'b111: 
             begin
                 input_b = bCompliment;
                 compRes = rOne ^ input_b;

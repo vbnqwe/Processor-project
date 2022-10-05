@@ -3,94 +3,89 @@
 
 module top(
         input clock,
-        output [31:0] r0
+        output [31:0] r0, r1, r2
     );
     
-    wire CLK;
-    assign CLK = clock;
-    //Various mux decidor things
-    wire ldrMem;
-    wire wriMem;
-    wire branch;
-    wire [2:0] opCode;
-    wire rd2ImmMux;
-    wire dst;
-    wire we;
-    wire [15:0] imm;
 
-    wire [3:0] a1, a2, a3;
-    wire [31:0] w3, rd1, rd2;
+
+    wire [3:0] addedAddress;
+    wire [3:0] address;
+    reg [3:0] register = 0; 
+    wire [31:0] dataWire;
+    assign addedAddress = 1 + address;
+    InstructionMemory instMem(
+        address,
+        dataWire
+    );
+    
+    always @ (posedge clock)begin
+        register = addedAddress;
+    end
+    
+    assign address = register;
+    
+    wire [3:0] a1, a2, a3a, a3b;
+    wire [15:0] imm;
+    wire [31:0] wd3, rd1, rd2;
+    wire a2OrA3, regWrite, immOrReg, ifWrite, ifLoad;
+    wire [2:0] opCode;
+    assign a2OrA3 = dataWire[31];
+    assign regWrite = dataWire[30];
+    assign immOrReg = dataWire[29];
+    assign opCode = dataWire[28:26];
+    assign ifWrite = dataWire[25];
+    assign ifLoad = dataWire[24];
+     
+    assign a1 = dataWire[23:20];
+    assign a2 = dataWire[19:16];
+    assign a3a = dataWire[19:16];
+    assign a3b = dataWire[15:12];
+    assign immExt = {{16{dataWire[15]}}, dataWire[15:0]};
+
+    
+    wire [31:0] immExt;    
+    
+    assign a3 = a2OrA3 ? a3a : a3b;
+    
     registerFile rf(
         a1,
         a2,
         a3,
-        w3,
-        we,
+        wd3,
+        regWrite,
         rd1,
-        rd2,
-        r0
+        rd2
     );
     
-    
-    wire [31:0] aluInputOne, aluInputTwo, aluOut;
-    wire of, c_out;
-    
-    wire [31:0] signExt;
-    assign aluInputOne = rd1;
-    assign aluInputTwo = rd2ImmMux ? signExt : rd2;
-    
-    ALU alu(
+    wire [31:0] rTwo;
+    wire [31:0] aluOut;
+    assign rTwo = immOrReg ? immExt : rd2; 
+    wire of, carry_out;
+
+
+    assign r0 = aluOut;
+    ALU arith(
         opCode,
-        aluInputOne,
-        aluInputTwo,
+        rd1,
+        rTwo,
         aluOut,
         of,
-        c_out
+        carry_out
     );
     
+    wire [3:0] dataAddress;
+    assign dataAddress = rd2[3:0];
+    wire [31:0] memOut;
     
-    wire [31:0] readData;
-    MemoryArray memArr(
-        CLK,
-        wriMem,
+    MemoryArray stack(
+        clock,
+        ifWrite,
+        dataAddress,
         aluOut,
-        rd2,
-        readData
+        memOut
     );
     
-    assign w3 = ldrMem ? readData : aluOut;
-    
-    
-    
-    wire [3:0] instAddress;
-    wire [31:0] addData;
-    wire [3:0] addedInstAddress;
-    assign addedInstAddress = 1 + instAddress;
-    reg4bit instReg(
-        addedInstAddress,
-        CLK,
-        instAddress
-    );
-    InstructionMemory instMem(
-        instAddress,
-        addData
-    );
-    
-    assign dst = addData[31];
-    assign we = addData[30];
-    assign rd2ImmMux = addData[29];
-    assign opCode = addData[28:26];
-    assign wriMem = addData[25];
-    assign ldrMem = addData[24];
-    assign a1 = addData[23:20];
-    assign a2 = addData[19:16];
-    assign a3 = dst ? addData[19:16] : addData[15:12];
-    assign imm = addData[15:0];
-    
-    
-    SignExtender extender(
-        imm,
-        signExt
-    );
-    
+    wire [31:0] result;
+    assign result = ifLoad ? memOut : aluOut;
+    assign wd3 = result;
 endmodule

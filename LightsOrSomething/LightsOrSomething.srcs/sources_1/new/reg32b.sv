@@ -10,4 +10,6 @@ module reg32b(
     always_ff @(posedge CLK)begin
         out <= data;
     end
+    
+    
 endmodule
