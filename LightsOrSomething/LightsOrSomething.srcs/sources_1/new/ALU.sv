@@ -36,7 +36,7 @@ module ALU(
     111 - logical shift left
     */
     
-    always @ (opCode, rOne, rTwo)
+    always @ (opCode or rOne or rTwo)
     begin
         case(opCode)
             3'b000: 

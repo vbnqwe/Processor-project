@@ -7,9 +7,15 @@ module reg32b(
     output logic [31:0] out
     );
     
-    always_ff @(posedge CLK)begin
-        out <= data;
+    reg [31:0] register;
+    initial begin
+        register = 32'h00000000;
+    end
+    always @(posedge CLK)begin
+        register <= data;
     end
     
+    assign out = register;
+  
     
 endmodule
