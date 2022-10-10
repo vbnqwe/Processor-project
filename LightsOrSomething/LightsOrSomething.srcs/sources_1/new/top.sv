@@ -3,7 +3,7 @@
 
 module top(
         input clock,
-        output [31:0] out
+        output [31:0] out, codeLine, test
     );
     
     
@@ -48,7 +48,7 @@ module top(
     assign ifLoadMem = dataWire[24];
     assign a1 = dataWire[23:20];
     assign a2 = dataWire[19:16];
-    assign a3 = a2OrA3 ? dataWire[19:16] : dataWire[15:12];
+    assign a3 = a2OrA3 ? dataWire[15:12] : dataWire[19:16];
     assign imm = dataWire[15:0];
     
     
@@ -57,7 +57,6 @@ module top(
     -----------------------Register file-----------------------
     **********************************************************/
     wire [31:0] wd3, rd1, rd2;
-    assign wd3 = {{16{0}}, imm};
     registerFile regs(
         a1,
         a2,
@@ -68,6 +67,25 @@ module top(
         rd1,
         rd2
     );
+    wire [31:0] r2;
+    assign r2 = immOrReg ? imm : rd2;
+    
+    
+    /**********************************************************
+    ----------------------------ALU----------------------------
+    **********************************************************/
+    wire of, carry_out;
+    wire [31:0] aluOut;
+    ALU aluModule(
+        opCode,
+        rd1,
+        r2,
+        aluOut,
+        of,
+        carry_out
+    );
     
     assign out = rd1;
+    assign wd3 = aluOut;//dataWire[15:0];
+    assign codeLine = rd2;
 endmodule

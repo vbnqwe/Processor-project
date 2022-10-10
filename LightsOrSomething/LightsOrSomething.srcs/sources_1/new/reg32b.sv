@@ -11,8 +11,9 @@ module reg32b(
     initial begin
         register = 32'h00000000;
     end
-    always @(posedge CLK)begin
-        register <= data;
+    always @(CLK or data)begin
+        if(CLK == 1)
+            register <= data;
     end
     
     assign out = register;

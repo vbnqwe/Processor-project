@@ -4,20 +4,14 @@ Running: C:/Xilinx/Vivado/2022.1/bin/unwrapped/win64.o/xelab.exe --incr --debug 
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-8864] concatenation with an unsized literal will be treated as 32 bits [C:/Users/vbogd/Processor project/LightsOrSomething/LightsOrSomething.srcs/sources_1/new/top.sv:60]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.InstructionMemory
-Compiling module xil_defaultlib.ThreeToEightDecoder
-Compiling module xil_defaultlib.FourToSixteenDecoder
-Compiling module xil_defaultlib.reg32b
-Compiling module xil_defaultlib.TwoToOneMux
-Compiling module xil_defaultlib.FourToOneMux
-Compiling module xil_defaultlib.EightToOneMux
-Compiling module xil_defaultlib.SixteenToOneMux
-Compiling module xil_defaultlib.registerFile_default
+Compiling module xil_defaultlib.registerFile
+Compiling module xil_defaultlib.adder
+Compiling module xil_defaultlib.ALU
 Compiling module xil_defaultlib.top
 Compiling module xil_defaultlib.adder_tb
 Compiling module xil_defaultlib.glbl

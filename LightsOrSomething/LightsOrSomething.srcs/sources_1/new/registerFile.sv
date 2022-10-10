@@ -11,7 +11,7 @@ module registerFile(
     output [31:0] rd1, rd2
     );
     
-    wire [15:0] decOut;
+    /*wire [15:0] decOut;
     FourToSixteenDecoder dec(a3, decOut);
     wire [15:0] regCLK;
     assign regCLK = decOut & {16{we}} & {16{clk}};
@@ -39,5 +39,28 @@ module registerFile(
         rd2
     );
 
+    assign test = regOutputs[1];*/
+    
+    reg [31:0] registers [15:0];
+    reg [31:0] read1, read2;
+    integer i;
+    initial begin
+        for(i = 0; i < 16; i = i + 1)begin
+            registers[i] = 32'h0;
+        end
+    end
+    
+    always @ (posedge clk)begin
+        if(we)begin
+            registers[a3] = wd3;
+        end
+        
+        read1 = registers[a1];
+        read2 = registers[a2];
+        
+    end
+    
+    assign rd1 = read1;
+    assign rd2 = registers[2];
 
 endmodule
