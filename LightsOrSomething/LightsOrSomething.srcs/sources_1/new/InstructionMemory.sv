@@ -11,13 +11,13 @@ module InstructionMemory(
         //1100_0000_0000_0000_1111_1111_1111_1111
         //a000ffff
         ROM[0] = 32'h00000000; //EMPTY LINE, registers will not be updated 
-        //ROM[1] = 32'h74000005; //assign 0005 into reg 0 
-        //ROM[2] = 32'h74010004; //assign 0004 into reg 1 
-       // ROM[3] = 32'hc0012000; //r1 and r0 into r2*/
-        ROM[1] = 32'h74000000; //0 into r0 (address)
-        ROM[2] = 32'h74010005; //5 into r1 (data);
-        ROM[3] = 32'h
-        ROM[4] = 32'h00000000; 
+        ROM[1] = 32'h74000005; //assign 0005 into reg 0 
+        ROM[2] = 32'h74010004; //assign 0004 into reg 1 
+        ROM[3] = 32'hc0012000; //r1 and r0 into r2*/
+        //ROM[1] = 32'h74000001; //0 into r0 (address)
+        //ROM[2] = 32'h74010005; //5 into r1 (data);
+        //ROM[3] = 32'h2f010000;
+        ROM[4] = 32'h00120000; 
         ROM[5] = 32'h00000000;
         ROM[6] = 32'h00000000;
         ROM[7] = 32'h00000000;

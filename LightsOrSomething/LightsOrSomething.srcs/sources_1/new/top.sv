@@ -3,7 +3,7 @@
 
 module top(
         input clock,
-        output [31:0] out, codeLine, test,
+        output [31:0] out1, out2, codeLine,
         output logic [16:0] [31:0] stackOut
     );
     
@@ -50,7 +50,7 @@ module top(
     assign a1 = dataWire[23:20];
     assign a2 = dataWire[19:16];
     assign a3 = a2OrA3 ? dataWire[15:12] : dataWire[19:16];
-    assign imm = dataWire[15:0];
+    assign imm = {{16{dataWire[15]}}, dataWire[15:0]};
     
     
     
@@ -66,11 +66,11 @@ module top(
         regOrMemWrite,
         clock,
         rd1,
-        rd2
+        rd2//,
+        //codeLine
     );
     wire [31:0] r2;
     assign r2 = immOrReg ? imm : rd2;
-    
     
     /**********************************************************
     ----------------------------ALU----------------------------
@@ -97,9 +97,9 @@ module top(
         stackOut,
         allStack
     );
-    assign out = rd1;
+    assign out1 = {a1, rd1[27:0]}; //address
     assign wd3 = ifLoadMem ? stackOut : aluOut;//dataWire[15:0];
-    assign codeLine = rd2;
-    
+    assign out2 = {a2, rd2[27:0]}; //data
+    assign codeLine = dataWire;
     
 endmodule

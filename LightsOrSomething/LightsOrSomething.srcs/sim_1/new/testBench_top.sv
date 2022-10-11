@@ -3,8 +3,11 @@
 
 module adder_tb;
     reg clk;
-    wire [31:0] out, wd3;
-    top dut(clk, out, wd3);
+    wire [31:0] out1, out2, data;
+    wire [16:0] [31:0] stackOut;
+    wire [31:0] important;
+    assign important = stackOut[0];
+    top dut(clk, out1, out2, data);
     
     initial begin
         clk = 0;

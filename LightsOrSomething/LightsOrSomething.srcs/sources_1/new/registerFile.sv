@@ -8,7 +8,7 @@ module registerFile(
     input [31:0] wd3,
     input we,
     input clk,
-    output [31:0] rd1, rd2
+    output [31:0] rd1, rd2, rTest
     );
     
     /*wire [15:0] decOut;
@@ -54,13 +54,16 @@ module registerFile(
         if(we)begin
             registers[a3] = wd3;
         end
-        
-        read1 = registers[a1];
-        read2 = registers[a2];
-        
     end
     
+    always @ (we or a1 or a2) begin
+        read1 = registers[a1];
+        read2 = registers[a2];
+    end
+    
+    
     assign rd1 = read1;
-    assign rd2 = registers[2];
+    assign rd2 = read2;
+    assign rTest = registers[2];
 
 endmodule
