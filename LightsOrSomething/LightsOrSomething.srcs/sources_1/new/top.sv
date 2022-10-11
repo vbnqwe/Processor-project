@@ -3,7 +3,8 @@
 
 module top(
         input clock,
-        output [31:0] out, codeLine, test
+        output [31:0] out, codeLine, test,
+        output logic [16:0] [31:0] stackOut
     );
     
     
@@ -42,10 +43,10 @@ module top(
     wire [15:0] imm;
     assign a2OrA3 = dataWire[31]; //1 for a2 position, 0 for a3 position
     assign regOrMemWrite  = dataWire[30]; //1 for reg write, 0 for mem write
-    assign immOrReg = dataWire[29];
-    assign opCode = dataWire[28:26];
-    assign ifWriteMem = dataWire[25];
-    assign ifLoadMem = dataWire[24];
+    assign immOrReg = dataWire[29]; //1 for imm, 0 for reg
+    assign opCode = dataWire[28:26]; 
+    assign ifWriteMem = dataWire[25]; //1 for write, 0 for no write
+    assign ifLoadMem = dataWire[24]; //1 for load, 0 for no load
     assign a1 = dataWire[23:20];
     assign a2 = dataWire[19:16];
     assign a3 = a2OrA3 ? dataWire[15:12] : dataWire[19:16];
@@ -85,7 +86,20 @@ module top(
         carry_out
     );
     
+    /**********************************************************
+    --------------------------Stack----------------------------
+    **********************************************************/
+    wire [31:0] stackOut;
+    MemoryArray stack(
+        ifWriteMem, 
+        aluOut,
+        rd2,
+        stackOut,
+        allStack
+    );
     assign out = rd1;
-    assign wd3 = aluOut;//dataWire[15:0];
+    assign wd3 = ifLoadMem ? stackOut : aluOut;//dataWire[15:0];
     assign codeLine = rd2;
+    
+    
 endmodule
