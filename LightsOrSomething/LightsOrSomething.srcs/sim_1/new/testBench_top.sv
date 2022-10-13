@@ -70,4 +70,36 @@ module adder_tb;
         #5;
         
     end*/
+    
+    /*reg we;
+    reg [3:0] address;
+    reg [31:0] dataIn;
+    wire [31:0] dataOut;
+    wire [31:0] first;
+    
+    MemoryArray dut(we, address, dataIn, dataOut, first);
+    
+    initial begin
+        address = 0;
+        dataIn = 5;
+        we = 1;
+    end*/
+    
+    /*reg [2:0] opCode;
+    reg [31:0] rOne;
+    reg [31:0] rTwo;
+    wire [31:0] out;
+    wire of;
+    wire c_out;
+    
+    ALU dut(opCode, rOne, rTwo, out, of, c_out);
+    initial begin
+        opCode = 3'b011;
+        rOne = 5;
+        rTwo = 0;
+        
+        
+        
+    end*/
+   
 endmodule

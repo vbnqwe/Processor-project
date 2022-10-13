@@ -3,8 +3,7 @@
 
 module top(
         input clock,
-        output [31:0] out1, out2, codeLine,
-        output logic [16:0] [31:0] stackOut
+        output [31:0] out1, out2, codeLine
     );
     
     
@@ -92,14 +91,14 @@ module top(
     wire [31:0] stackOut;
     MemoryArray stack(
         ifWriteMem, 
-        aluOut,
+        aluOut[3:0],
         rd2,
         stackOut,
-        allStack
+        out2
     );
-    assign out1 = {a1, rd1[27:0]}; //address
+    assign out1 = aluOut[3:0]; //address
     assign wd3 = ifLoadMem ? stackOut : aluOut;//dataWire[15:0];
-    assign out2 = {a2, rd2[27:0]}; //data
-    assign codeLine = dataWire;
+    //assign out2 = {a2, rd2[27:0]}; //data
+    assign codeLine = rd2;
     
 endmodule

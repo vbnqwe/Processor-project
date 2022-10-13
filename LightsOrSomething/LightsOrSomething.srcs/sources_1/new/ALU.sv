@@ -10,20 +10,43 @@ module ALU(
     output c_out
     );
     
-    //addition/subration variables
-    wire [31:0] b;
-    wire [31:0] bCompliment;
-    reg [31:0] input_b;
-    reg carry_in;
-    reg [31:0] sum;
+    wire [31:0] notrTwo, inputOne, inputTwo;
+    assign notrTwo = ~rTwo;
+    wire ifNegative;
+    assign ifNegative = opCode[0] & ~opCode[1] & ~opCode[2];
+    assign inputTwo = ifNegative ? notrTwo : rTwo;
+    assign inputOne = rOne;
     
-    assign b = rTwo;
-    assign bCompliment = ~rTwo;
+    wire [31:0] andOp, orOp, xorOp, assignOp, sumOp;
+    assign andOp = rOne & rTwo;
+    assign orOp = rOne | rTwo;
+    assign xorOp = rOne ^ rTwo;
+    assign assignOp = rTwo;
         
-    //comparator variables 
-    reg [31:0] compareResult;
-
-
+    adder arith(
+        inputOne,
+        inputTwo,
+        ifNegative,
+        sumOp,
+        of,
+        c_out
+    );
+    
+    reg [31:0] tempOutput;
+    always @ (rOne or rTwo or opCode)
+    begin
+        case(opCode)
+            3'b000: tempOutput <= sumOp;
+            3'b001: tempOutput <= sumOp;
+            3'b010: tempOutput <= andOp;
+            3'b011: tempOutput <= orOp;
+            3'b100: tempOutput <= xorOp;
+            3'b101: tempOutput <= assignOp;
+            3'b110: tempOutput <= sumOp;
+            3'b111: tempOutput <= sumOp;
+        endcase
+    end
+    assign out = tempOutput;
     /*
     Opcode table:
     000 - add
@@ -37,70 +60,4 @@ module ALU(
     111 - logical shift left
     */
     
-    always @ (opCode or rOne or rTwo)
-    begin
-        case(opCode)
-            3'b000:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-            end
-            3'b001:
-            begin
-                input_b <= bCompliment;
-                carry_in <= 1;
-            end
-            3'b010:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-                compareResult <= rOne & input_b;
-            end
-            3'b011:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-                compareResult <= rOne | input_b;
-            end
-            3'b100:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-                compareResult <= rOne ^ input_b;
-            end
-            3'b101:
-            begin
-                compareResult <= rTwo;
-                carry_in <= 0;
-            end
-            3'b110:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-            end
-            3'b111:
-            begin
-                input_b <= b;
-                carry_in <= 0;
-            end
-        endcase
-    end
-    
-    adder arith(
-        rOne,
-        input_b,
-        carry_in,
-        sum,
-        of,
-        c_out
-    );
-    
-    reg [2:0] addCond, subCond;
-    initial begin
-        addCond = 3'b000;
-        subCond = 3'b001;
-    end
-    wire compOrSum;
-    assign compOrSum = (addCond == opCode) | (subCond == opCode);
-    assign out = compOrSum ? sum : compareResult;
 endmodule

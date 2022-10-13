@@ -6,11 +6,11 @@ module MemoryArray(
     input logic [3:0] address,
     input logic [31:0] data,
     output logic [31:0] outData,
-    output logic [16:0] [31:0] allStack
+    output logic [31:0] zeroOut
     );
     
     reg [16:0] [31:0] mem;
-    assign allStack = mem;
+    assign zeroOut = mem[5];
     always@(WE)
         if(WE) 
             mem[address] <= data;
