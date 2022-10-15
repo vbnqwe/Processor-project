@@ -5,9 +5,10 @@ module ALU(
     input [2:0] opCode,
     input [31:0] rOne,
     input [31:0] rTwo,
-    output [31:0] out,
+    output reg [31:0] out,
     output of,
-    output c_out
+    output c_out,
+    output [31:0] test
     );
     
     wire [31:0] notrTwo, inputOne, inputTwo;
@@ -17,11 +18,7 @@ module ALU(
     assign inputTwo = ifNegative ? notrTwo : rTwo;
     assign inputOne = rOne;
     
-    wire [31:0] andOp, orOp, xorOp, assignOp, sumOp;
-    assign andOp = rOne & rTwo;
-    assign orOp = rOne | rTwo;
-    assign xorOp = rOne ^ rTwo;
-    assign assignOp = rTwo;
+    wire [31:0] sumOp;
         
     adder arith(
         inputOne,
@@ -32,21 +29,20 @@ module ALU(
         c_out
     );
     
-    reg [31:0] tempOutput;
     always @ (rOne or rTwo or opCode)
     begin
         case(opCode)
-            3'b000: tempOutput <= sumOp;
-            3'b001: tempOutput <= sumOp;
-            3'b010: tempOutput <= andOp;
-            3'b011: tempOutput <= orOp;
-            3'b100: tempOutput <= xorOp;
-            3'b101: tempOutput <= assignOp;
-            3'b110: tempOutput <= sumOp;
-            3'b111: tempOutput <= sumOp;
+            3'b000: out <= sumOp;
+            3'b001: out <= sumOp;
+            3'b010: out <= rTwo & rOne;
+            3'b011: out <= rTwo | rOne;
+            3'b100: out <= rTwo ^ rOne;
+            3'b101: out <= rTwo;
+            3'b110: out <= sumOp;
+            3'b111: out <= sumOp;
         endcase
     end
-    assign out = tempOutput;
+   
     /*
     Opcode table:
     000 - add
@@ -59,5 +55,5 @@ module ALU(
     110 - arithmetic shift left
     111 - logical shift left
     */
-    
+    assign test = rOne | rTwo;
 endmodule

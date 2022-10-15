@@ -8,7 +8,7 @@ module registerFile(
     input [31:0] wd3,
     input we,
     input clk,
-    output [31:0] rd1, rd2, rTest
+    output [31:0] rd1, rd2, rTest1, rTest2, rTest3
     );
     
     /*wire [15:0] decOut;
@@ -64,6 +64,8 @@ module registerFile(
     
     assign rd1 = read1;
     assign rd2 = read2;
-    assign rTest = registers[2];
+    assign rTest1 = registers[0];
+    assign rTest2 = registers[1];
+    assign rTest3 = registers[2];
 
 endmodule

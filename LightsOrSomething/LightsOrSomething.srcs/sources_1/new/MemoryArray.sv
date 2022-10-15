@@ -10,8 +10,7 @@ module MemoryArray(
     );
     
     reg [16:0] [31:0] mem;
-    assign zeroOut = mem[5];
-    always@(WE)
+    always@(WE or data or address)
         if(WE) 
             mem[address] <= data;
     

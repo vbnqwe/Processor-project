@@ -22,10 +22,7 @@ module adder_tb;
         #5;
         clk = 1;
         #5;
-        clk = 0;
-        #5;
-        clk = 1;
-        #5;
+        
     end
     
     /*reg [31:0] r1, r2;
@@ -35,9 +32,13 @@ module adder_tb;
     ALU dut(oc ,r1, r2, out);
     
     initial begin
-        oc =5;
-        r1 = 15;
-        r2 = 10;
+        oc = 5;
+        r1 = 5;
+        r2 = 4;
+        #5;
+        oc =3;
+        r1 = 1;
+        r2 = 0;
     end*/
     
     /*reg [3:0] a1, a2, a3;
@@ -97,9 +98,28 @@ module adder_tb;
         opCode = 3'b011;
         rOne = 5;
         rTwo = 0;
-        
-        
-        
+    end*/
+    
+    /*reg WE;
+    reg [3:0] address;
+    reg [31:0] data;
+    reg [31:0] outData;
+    reg [31:0] zeroOut;
+    
+    MemoryArray dut(
+        WE,
+        address,
+        data,
+        outData,
+        zeroOut
+    );
+    
+    initial begin
+        WE = 0;
+        address = 0;
+        data = 5;
+        #5;
+        WE = 1;
     end*/
    
 endmodule

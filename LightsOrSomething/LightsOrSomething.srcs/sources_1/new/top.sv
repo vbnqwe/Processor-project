@@ -65,8 +65,7 @@ module top(
         regOrMemWrite,
         clock,
         rd1,
-        rd2//,
-        //codeLine
+        rd2//
     );
     wire [31:0] r2;
     assign r2 = immOrReg ? imm : rd2;
@@ -83,6 +82,7 @@ module top(
         aluOut,
         of,
         carry_out
+        
     );
     
     /**********************************************************
@@ -93,12 +93,10 @@ module top(
         ifWriteMem, 
         aluOut[3:0],
         rd2,
-        stackOut,
-        out2
+        stackOut
     );
-    assign out1 = aluOut[3:0]; //address
+
     assign wd3 = ifLoadMem ? stackOut : aluOut;//dataWire[15:0];
-    //assign out2 = {a2, rd2[27:0]}; //data
-    assign codeLine = rd2;
-    
+    assign out1 = stackOut;
+    assign codeLine = dataWire;
 endmodule
