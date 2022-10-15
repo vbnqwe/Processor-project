@@ -37,7 +37,7 @@ module InstructionMemory(
         //below is a test for branching
         //ROM[1] = 32'h7400000a; //assign 0005 into reg 0 
         //ROM[2] = 32'h74010008; //assign 0004 into reg 1 
-        //ROM[3] = 32'hc0012000; if reg 0 == reg 1, 
+        //ROM[3] = 32'
         ROM[4] = 32'h00120000; 
         ROM[5] = 32'h00000000;
         ROM[6] = 32'h00000000;
