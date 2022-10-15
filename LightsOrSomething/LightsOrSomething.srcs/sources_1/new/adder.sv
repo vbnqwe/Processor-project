@@ -6,10 +6,11 @@ module adder(
     input [31:0] input_b,
     input c_i,
     output [31:0] out,
-    output overflow,
-    output c_o
+    output lt,
+    output gt,
+    output eq
     );
-    
-    assign {c_o, out} = input_a + input_b + c_i;
-    assign overflow = c_o;
+    wire carry1, carry2;
+    assign {carry, out} = input_a + input_b + c_i;
+    assign lt = c_o;
 endmodule
